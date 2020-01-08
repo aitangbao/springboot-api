@@ -16,3 +16,6 @@ Spring Boot API 是一个基于Spring Boot & MyBatis plus的种子项目，用�
 3. 输入表名，运行```CodeGenerator.main()```方法，生成基础代码（可能需要刷新项目目录才会出来）
 4. 根据业务在基础代码上进行扩展
 5. 对开发环境配置文件```application-dev.properties```进行配置，启动项目，Have Fun！
+
+## License
+纯粹开源分享，感谢大家 [Star](https://github.com/aitangbao/springboot-api) 的支持。
