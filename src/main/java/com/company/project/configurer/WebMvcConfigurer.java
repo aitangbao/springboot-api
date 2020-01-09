@@ -99,10 +99,18 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         });
     }
 
-    //解决跨域问题
+    /**
+     * 页面跨域访问Controller过滤
+     *
+     * @return
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        //registry.addMapping("/**");
+        WebMvcConfigurer.super.addCorsMappings(registry);
+        registry.addMapping("/**")
+                .allowedHeaders("*")
+                .allowedMethods("POST","GET")
+                .allowedOrigins("*");
     }
 
     //添加拦截器
