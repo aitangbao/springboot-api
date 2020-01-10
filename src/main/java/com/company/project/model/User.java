@@ -1,10 +1,12 @@
 package com.company.project.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -53,7 +55,7 @@ public class User implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createDate;
+    private Date createDate;
 
     /**
      * 创建人
@@ -63,7 +65,7 @@ public class User implements Serializable {
     /**
      * 修改时间
      */
-    private LocalDateTime updateDate;
+    private Date updateDate;
 
     /**
      * 修改人
@@ -76,5 +78,10 @@ public class User implements Serializable {
     @TableLogic
     private Integer delFlag;
 
+    /**
+     * 登陆返回token
+     */
+    @TableField(exist = false)
+    private String token;
 
 }

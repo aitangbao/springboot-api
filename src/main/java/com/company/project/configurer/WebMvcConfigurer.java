@@ -122,7 +122,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
                 String requestURI = request.getRequestURI();
                 //拦截接口
-                if (requestURI.contains("/api")) {
+                if (requestURI.contains("/api") && !requestURI.contains("/api/user/login")) {
                     //从header中获取token
                     String token = request.getHeader("token");
                     //如果header中不存在token，则从参数中获取token

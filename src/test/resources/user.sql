@@ -38,15 +38,15 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '1@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (2, '2@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-2', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (3, '3@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-3', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (4, '4@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-4', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (5, '5@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-5', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (6, '6@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-6', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (7, '7@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-7', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (8, '8@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-8', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (9, '9@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-9', 1, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` VALUES (10, '10@qq.com', '1ee04e0b1cb5af7367c80c22e42efd8b', '土豆-10', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (1, 'admin', '9dc818b4bca3baa7d230fbf96c919638', '土豆', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (2, '2@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-2', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (3, '3@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-3', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (4, '4@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-4', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (5, '5@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-5', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (6, '6@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-6', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (7, '7@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-7', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (8, '8@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-8', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (9, '9@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-9', 1, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `user` VALUES (10, '10@qq.com', '9dc818b4bca3baa7d230fbf96c919638', '土豆-10', 1, NULL, NULL, NULL, NULL, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

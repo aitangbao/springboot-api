@@ -1,10 +1,14 @@
 package com.company.project.web;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.utils.JwtUtils;
+import com.company.project.utils.MD5Utils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import com.company.project.service.IUserService;
 import com.company.project.model.User;
@@ -27,11 +31,29 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {""})
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Resource
     private IUserService userService;
+
+    @ApiOperation("登陆")
+    @PostMapping("/login")
+    public Result login(@RequestParam String username, @RequestParam String password) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        User user = userService.getOne(queryWrapper);
+        if (user == null) {
+            return ResultGenerator.genFailResult("账号未找到");
+        }
+        if (!MD5Utils.Encrypt(password,true).equals(user.getPassword())) {
+            return ResultGenerator.genFailResult("密码错误");
+        }
+        String token = JwtUtils.geneJsonWebToken(user);
+        user.setToken(token);
+        user.setPassword("");
+        return ResultGenerator.genSuccessResult(user);
+    }
 
 
     @ApiOperation(value = "新增")
@@ -74,4 +96,7 @@ public class UserController {
         return ResultGenerator.genSuccessResult(userService.getById(id));
     }
 
+    public static void main(String[] args) {
+        System.out.println(MD5Utils.Encrypt("123456", true));
+    }
 }
