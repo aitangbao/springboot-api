@@ -96,7 +96,4 @@ public class UserController {
         return ResultGenerator.genSuccessResult(userService.getById(id));
     }
 
-    public static void main(String[] args) {
-        System.out.println(MD5Utils.Encrypt("123456", true));
-    }
 }
