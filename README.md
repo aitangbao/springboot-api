@@ -7,7 +7,7 @@ Spring Boot API 是一个基于Spring Boot & MyBatis plus的种子项目，用�
 - 简单的jwt认证
 - 使用Druid Spring Boot Starter 集成Druid数据库连接池与监控, 地址为ip:port/druid/index.html
 - 集成MyBatis plus，实现单表业务零SQL
-- 支持多数据源，实现单表业务零SQL，方法或类上用 @DS 切换数据源
+- 支持多数据源，自由切换，只需方法或类上用 @DS 切换数据源
 - 集成Swagger2,自动生成接口文档 地址为ip:port/swagger-ui.html
 - 提供代码生成器，生成controller,service,serviceImpl,dao,mapper.xml
  
