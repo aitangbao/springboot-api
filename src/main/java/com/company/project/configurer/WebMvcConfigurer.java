@@ -21,11 +21,9 @@ import com.company.project.core.ResultCode;
 import com.company.project.core.ServiceException;
 import com.company.project.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -139,7 +137,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                     Claims claims = JwtUtils.checkJWT(token);
                     if(null == claims){
                         Result result = new Result();
-                        result.setCode(ResultCode.UNAUTHORIZED).setMessage(claims.get("token") + "登陆失效， 请重新登陆");
+                        result.setCode(ResultCode.UNAUTHORIZED).setMessage("登陆失效， 请重新登陆");
                         responseResult(response, result);
                         return false;
                     }
