@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * <p>
  * 
@@ -35,11 +37,13 @@ public class User implements Serializable {
     /**
      * 用户名
      */
+    @NotEmpty(message = "用户名不能为空！")
     private String username;
 
     /**
      * 密码
      */
+    @NotEmpty(message = "密码不能为空！")
     private String password;
 
     /**

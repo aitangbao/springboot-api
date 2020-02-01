@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -38,7 +40,7 @@ public class UserController {
 
     @ApiOperation("登陆")
     @PostMapping("/login")
-    public Result login(@RequestBody User user) {
+    public Result login(@RequestBody @Valid User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", user.getUsername());
         User userO = userService.getOne(queryWrapper);
@@ -54,10 +56,16 @@ public class UserController {
         return ResultGenerator.genSuccessResult(user);
     }
 
-
-    @ApiOperation(value = "新增")
-    @PostMapping("add")
-    public Result add(@RequestBody User user){
+    @ApiOperation("注册")
+    @PostMapping("/register")
+    public Result register(@RequestBody @Valid User user) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", user.getUsername());
+        User userO = userService.getOne(queryWrapper);
+        if (userO != null) {
+            return ResultGenerator.genFailResult("账号已存在");
+        }
+        user.setPassword(MD5Utils.Encrypt(user.getPassword(),true));
         userService.save(user);
         return ResultGenerator.genSuccessResult();
     }
@@ -72,6 +80,8 @@ public class UserController {
     @ApiOperation(value = "更新")
     @PostMapping("update")
     public Result update(@RequestBody User user){
+        //密码不更新
+        user.setPassword(null);
         userService.updateById(user);
         return ResultGenerator.genSuccessResult();
     }

@@ -18,6 +18,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 
 import com.company.project.core.Result;
 import com.company.project.core.ResultCode;
+import com.company.project.core.ResultGenerator;
 import com.company.project.core.ServiceException;
 import com.company.project.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
@@ -27,6 +28,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -71,7 +74,11 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                 if (e instanceof ServiceException) {//业务失败的异常，如“账号或密码错误”
                     result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
                     logger.info(e.getMessage());
-                } else if (e instanceof NoHandlerFoundException) {
+                } else if (e instanceof MethodArgumentNotValidException) {
+                    MethodArgumentNotValidException m = (MethodArgumentNotValidException)e;
+                    m.getBindingResult().getFieldError().getDefaultMessage();
+                    result.setCode(ResultCode.FAIL).setMessage( m.getBindingResult().getFieldError().getDefaultMessage());
+                }else if (e instanceof NoHandlerFoundException) {
                     result.setCode(ResultCode.NOT_FOUND).setMessage("接口 [" + request.getRequestURI() + "] 不存在");
                 } else if (e instanceof ServletException) {
                     result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
@@ -97,6 +104,11 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         });
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return ResultGenerator.genFailResult(e.getBindingResult().getFieldError().getDefaultMessage());
+    }
+
     /**
      * 页面跨域访问Controller过滤
      *
@@ -120,7 +132,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
                 String requestURI = request.getRequestURI();
                 //拦截接口
-                if (requestURI.contains("/api") && !requestURI.contains("/api/user/login")) {
+                if (requestURI.contains("/api") && !requestURI.contains("/api/user/login") && !requestURI.contains("/api/user/register")) {
                     //从header中获取token
                     String token = request.getHeader("token");
                     //如果header中不存在token，则从参数中获取token
