@@ -8,7 +8,6 @@ import com.company.project.utils.JwtUtils;
 import com.company.project.utils.MD5Utils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import com.company.project.service.IUserService;
 import com.company.project.model.User;
@@ -39,14 +38,14 @@ public class UserController {
 
     @ApiOperation("登陆")
     @PostMapping("/login")
-    public Result login(@RequestParam String username, @RequestParam String password) {
+    public Result login(@RequestBody User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", username);
-        User user = userService.getOne(queryWrapper);
+        queryWrapper.eq("username", user.getUsername());
+        User userO = userService.getOne(queryWrapper);
         if (user == null) {
             return ResultGenerator.genFailResult("账号未找到");
         }
-        if (!MD5Utils.Encrypt(password,true).equals(user.getPassword())) {
+        if (!MD5Utils.Encrypt(user.getPassword(),true).equals(userO.getPassword())) {
             return ResultGenerator.genFailResult("密码错误");
         }
         String token = JwtUtils.geneJsonWebToken(user);
@@ -64,7 +63,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "删除")
-    @PostMapping("delete")
+    @PostMapping("delete/{id}")
     public Result delete(@PathVariable("id") Long id){
         userService.removeById(id);
         return ResultGenerator.genSuccessResult();
@@ -91,7 +90,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "id查询")
-    @GetMapping("getById")
+    @GetMapping("getById/{id}")
     public Result findById(@PathVariable Long id){
         return ResultGenerator.genSuccessResult(userService.getById(id));
     }

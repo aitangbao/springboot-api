@@ -58,7 +58,7 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
     }
 
     @ApiOperation(value = "删除${table.comment!}")
-    @PostMapping("delete")
+    @PostMapping("delete/{id}")
     public Result delete(@PathVariable("id") Long id){
         ${(table.serviceName?substring(1))?uncap_first}.removeById(id);
         return ResultGenerator.genSuccessResult();
@@ -85,7 +85,7 @@ class ${table.controllerName}<#if superControllerClass??>:${superControllerClass
     }
 
     @ApiOperation(value = "id查询${table.comment!}")
-    @GetMapping("getById")
+    @GetMapping("getById/{id}")
     public Result findById(@PathVariable Long id){
         return ResultGenerator.genSuccessResult(${(table.serviceName?substring(1))?uncap_first}.getById(id));
     }
