@@ -77,7 +77,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                 } else if (e instanceof MethodArgumentNotValidException) {
                     MethodArgumentNotValidException m = (MethodArgumentNotValidException)e;
                     m.getBindingResult().getFieldError().getDefaultMessage();
-                    result.setCode(ResultCode.FAIL).setMessage( m.getBindingResult().getFieldError().getDefaultMessage());
+                    result.setCode(ResultCode.PARAM_FAIL).setMessage( m.getBindingResult().getFieldError().getDefaultMessage());
                 }else if (e instanceof NoHandlerFoundException) {
                     result.setCode(ResultCode.NOT_FOUND).setMessage("接口 [" + request.getRequestURI() + "] 不存在");
                 } else if (e instanceof ServletException) {
