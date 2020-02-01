@@ -18,7 +18,8 @@ Spring Boot API 是一个基于Spring Boot & MyBatis plus的种子项目，用�
 4. 输入表名，运行```CodeGenerator.main()```方法，生成基础代码（可能需要刷新项目目录才会出来）
 5. 根据业务在基础代码上进行扩展
 6. 对开发环境配置文件```application-dev.yml```进行配置，启动项目，Have Fun！
-7. post调用接口ip:8080/api/user/login, FormData方式, 参数username(admin)、password(123456), 返回token！ 奔放吧
+7. post调用接口ip:8080/api/user/login, 调用成功后, 返回token。
+8. 以后调用api接口，header中传token，奔放！！！
 
 ## License
 纯粹开源分享，感谢大家 [Star](https://github.com/aitangbao/springboot-api) 的支持。
