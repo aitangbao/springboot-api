@@ -92,8 +92,8 @@ public class UserController {
         @ApiImplicitParam(name = "pageCount", value = "每页条数")
     })
     @GetMapping("listByPage")
-    public Result findListByPage(@RequestParam Integer currentPage,
-                                   @RequestParam Integer pageCount){
+    public Result findListByPage(@RequestParam(defaultValue = "1") Integer currentPage,
+                                   @RequestParam(defaultValue = "10") Integer pageCount){
         Page page = new Page(currentPage, pageCount);
         IPage<User> iPage = userService.page(page);
         return ResultGenerator.genSuccessResult(iPage);

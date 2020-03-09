@@ -2,9 +2,7 @@ package com.company.project.configurer;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,9 +18,6 @@ import com.company.project.core.Result;
 import com.company.project.core.ResultCode;
 import com.company.project.core.ResultGenerator;
 import com.company.project.core.ServiceException;
-import com.company.project.utils.JwtUtils;
-import io.jsonwebtoken.Claims;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +30,6 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import static com.company.project.utils.JwtUtils.USER_ACCOUNT_KEY;
-import static com.company.project.utils.JwtUtils.USER_ID_KEY;
 
 /**
  * Spring MVC 配置
@@ -47,6 +38,8 @@ import static com.company.project.utils.JwtUtils.USER_ID_KEY;
 public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
+
+
 
     //使用阿里 FastJson 作为JSON MessageConverter
     @Override
@@ -74,7 +67,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                 if (e instanceof ServiceException) {//业务失败的异常，如“账号或密码错误”
                     result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
                     logger.info(e.getMessage());
-                } else if (e instanceof MethodArgumentNotValidException) {
+                } else if (e instanceof MethodArgumentNotValidException) {//@valid注解验证参数
                     MethodArgumentNotValidException m = (MethodArgumentNotValidException)e;
                     m.getBindingResult().getFieldError().getDefaultMessage();
                     result.setCode(ResultCode.PARAM_FAIL).setMessage( m.getBindingResult().getFieldError().getDefaultMessage());
@@ -126,40 +119,10 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     //添加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //接口签名认证拦截器，jwt方式
-        registry.addInterceptor(new HandlerInterceptorAdapter() {
-            @Override
-            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                String requestURI = request.getRequestURI();
-                //拦截接口
-                if (requestURI.contains("/api") && !requestURI.contains("/api/user/login") && !requestURI.contains("/api/user/register")) {
-                    //从header中获取token
-                    String token = request.getHeader("token");
-                    //如果header中不存在token，则从参数中获取token
-                    if(StringUtils.isBlank(token)){
-                        token = request.getParameter("token");
-                    }
-                    //token为空返回
-                    if(StringUtils.isBlank(token)){
-                        Result result = new Result();
-                        result.setCode(ResultCode.UNAUTHORIZED).setMessage("token不能为空");
-                        responseResult(response, result);
-                        return false;
-                    }//  校验并解析token，如果token过期或者篡改，则会返回null
-                    Claims claims = JwtUtils.checkJWT(token);
-                    if(null == claims){
-                        Result result = new Result();
-                        result.setCode(ResultCode.UNAUTHORIZED).setMessage("登陆失效， 请重新登陆");
-                        responseResult(response, result);
-                        return false;
-                    }
-                    //  校验通过后，设置用户信息到request里，在Controller中从Request域中获取用户信息
-                    request.setAttribute(USER_ID_KEY, claims.get("id"));
-                    request.setAttribute(USER_ACCOUNT_KEY, claims.get("account"));
-                }
-                return true;
-            }
-        });
+        registry.addInterceptor(new LoginInterceptor())
+                .excludePathPatterns("/api/user/login")
+                .excludePathPatterns("/api/user/register")
+                .addPathPatterns("/**");
     }
 
 
