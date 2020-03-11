@@ -44,7 +44,7 @@ public class UserController {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", user.getUsername());
         User userO = userService.getOne(queryWrapper);
-        if (user == null) {
+        if (userO == null) {
             return ResultGenerator.genFailResult("账号未找到");
         }
         if (!MD5Utils.Encrypt(user.getPassword(),true).equals(userO.getPassword())) {
