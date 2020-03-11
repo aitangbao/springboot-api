@@ -20,6 +20,7 @@ import com.company.project.core.ResultGenerator;
 import com.company.project.core.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -39,7 +40,11 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
 
+    @Bean
+    LoginInterceptor loginInterceptor() {
 
+        return new LoginInterceptor();
+    }
 
     //使用阿里 FastJson 作为JSON MessageConverter
     @Override
@@ -119,7 +124,11 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     //添加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
+        registry.addInterceptor(loginInterceptor())
+                .excludePathPatterns("/swagger-ui.html")
+                .excludePathPatterns("/swagger-resources/**")
+                .excludePathPatterns("/error")
+                .excludePathPatterns("/webjars/**")
                 .excludePathPatterns("/api/user/login")
                 .excludePathPatterns("/api/user/register")
                 .addPathPatterns("/**");
