@@ -26,8 +26,8 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("swagger-bootstrap-ui RESTful APIs")
-                .description("swagger-bootstrap-ui")
+                .title("Springboot-api APIs")
+                .description("Springboot-api APIs")
                 .termsOfServiceUrl("http://localhost:8080/")
                 .contact("xxxxxxxxxx@163.com")
                 .version("1.0")
