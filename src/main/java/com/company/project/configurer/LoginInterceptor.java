@@ -20,8 +20,6 @@ import static com.company.project.utils.JwtUtils.USER_ACCOUNT_KEY;
 import static com.company.project.utils.JwtUtils.USER_ID_KEY;
 
 /**
- * @author  wenbin
- * @since 2019/10/30 15:29
  * <p>登陆拦截器
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
