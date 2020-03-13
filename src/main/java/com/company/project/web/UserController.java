@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author project
  * @since 2020-01-08
  */
-@Api(tags = {""})
 @Slf4j
 @RestController
 @RequestMapping("/api/user")

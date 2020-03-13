@@ -29,7 +29,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println(request.getRequestURI());
         //拦截接口
         //从header中获取token
         String token = request.getHeader("token");
