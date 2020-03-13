@@ -9,6 +9,7 @@ public class Result<T> {
     private int code;
     private String message;
     private T data;
+    private Boolean success;
 
     public Result setCode(ResultCode resultCode) {
         this.code = resultCode.code();
@@ -34,6 +35,15 @@ public class Result<T> {
 
     public Result setData(T data) {
         this.data = data;
+        return this;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public Result setSuccess(Boolean success) {
+        this.success = success;
         return this;
     }
 
