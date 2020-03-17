@@ -27,6 +27,7 @@ public class Application {
                         "Application '{}' is running! Access URLs:\n\t" +
                         "Local: \t\thttp://localhost:{}\n\t" +
                         "External: \thttp://{}:{}\n\t" +
+                        "login: \thttp://{}:{}/login\n\t" +
                         "Doc: \thttp://{}:{}/doc.html\n" +
                         "----------------------------------------------------------",
                 env.getProperty("spring.application.name"),
@@ -34,7 +35,10 @@ public class Application {
                 InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"),
                 InetAddress.getLocalHost().getHostAddress(),
+                env.getProperty("server.port"),
+                InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"));
+
     }
 }
 
