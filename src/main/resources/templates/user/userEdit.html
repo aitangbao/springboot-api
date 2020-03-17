@@ -67,7 +67,7 @@
                 contentType: "application/json",
                 success: function (data) {
                     if (data.code == 0) {
-                        layer.msg('修改成功',{time:1000}, function (index) {
+                        layer.msg('修改成功', {time: 1000}, function (index) {
                             window.parent.layer.closeAll();//关闭弹窗
                             parent.location.reload()
                         });
