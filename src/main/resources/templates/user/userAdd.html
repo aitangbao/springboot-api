@@ -11,19 +11,22 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input  style="width: 300px"  type="text" name="username" lay-verify="require" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" class="layui-input">
+            <input style="width: 300px" type="text" name="username" lay-verify="require" lay-reqtext="用户名是必填项，岂能为空？"
+                   placeholder="请输入" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-            <input  style="width: 300px" type="password" name="password" lay-verify="require"  placeholder="请输入密码" autocomplete="off" class="layui-input">
+            <input style="width: 300px" type="password" name="password" lay-verify="require" placeholder="请输入密码"
+                   autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">昵称</label>
         <div class="layui-input-block">
-            <input style="width: 300px"  type="text" name="nickName" lay-verify="nickName" placeholder="请输入" class="layui-input">
+            <input style="width: 300px" type="text" name="nickName" lay-verify="nickName" placeholder="请输入"
+                   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -43,6 +46,9 @@
 </form>
 <script src="layui/layui.js"></script>
 <script>
+
+    var token = localStorage.getItem("token");
+
     layui.use('form', function () {
 
 
@@ -64,13 +70,13 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'api/user/register?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbmVoZWUiLCJ1c2VyTmFtZSI6ImFkbWluIiwiaWF0IjoxNTg0NDIwNjU1LCJleHAiOjE1ODUwMjU0NTV9.xSemPNbrrTBMZy1uT-SvahPUZvKumlzUPO_85xfWE-E',
+                url: 'api/user/register?token=' + token,
                 dataType: "JSON",
                 data: JSON.stringify(data.field),
                 contentType: "application/json",
                 success: function (data) {
                     if (data.code == 0) {
-                        layer.alert('添加成功', function(index){
+                        layer.msg('添加成功',{time:1000}, function (index) {
                             window.parent.layer.closeAll();//关闭弹窗
                             parent.location.reload()
                         });

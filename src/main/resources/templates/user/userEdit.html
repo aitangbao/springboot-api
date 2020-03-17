@@ -11,7 +11,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">昵称</label>
         <div class="layui-input-block">
-            <input style="width: 300px" type="text" id="nickName" name="nickName" lay-verify="nickName" placeholder="请输入" class="layui-input">
+            <input style="width: 300px" type="text" id="nickName" name="nickName" lay-verify="nickName"
+                   placeholder="请输入" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -31,6 +32,7 @@
 </form>
 <script src="layui/layui.js"></script>
 <script>
+    var token = localStorage.getItem("token");
     layui.use('form', function () {
 
 
@@ -59,13 +61,13 @@
         form.on('submit(test)', function (data) {
             $.ajax({
                 type: 'POST',
-                url: 'api/user/update?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbmVoZWUiLCJ1c2VyTmFtZSI6ImFkbWluIiwiaWF0IjoxNTg0NDIwNjU1LCJleHAiOjE1ODUwMjU0NTV9.xSemPNbrrTBMZy1uT-SvahPUZvKumlzUPO_85xfWE-E',
+                url: 'api/user/update?token=' + token,
                 dataType: "JSON",
                 data: JSON.stringify(data.field),
                 contentType: "application/json",
                 success: function (data) {
                     if (data.code == 0) {
-                        layer.alert('修改成功', function(index){
+                        layer.msg('修改成功',{time:1000}, function (index) {
                             window.parent.layer.closeAll();//关闭弹窗
                             parent.location.reload()
                         });
