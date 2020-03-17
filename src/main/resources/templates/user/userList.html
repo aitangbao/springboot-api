@@ -30,7 +30,7 @@
 
     layui.use('table', function () {
         var table = layui.table;
-
+		var $ = layui.jquery;
         //第一个实例
         table.render({
             elem: '#demo'
@@ -74,15 +74,7 @@
 					,data = checkStatus.data; //获取选中的数据
 			switch(obj.event){
 				case 'add':
-					layer.open({
-						title: "修改",
-						area: ['600px', '500px'],
-						type: 2,
-						content: 'userAdd', //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
-						end: function(){
-							location.reload()
-						}
-					});
+					add();
 					break;
 				case 'delete':
 					if(data.length === 0){
@@ -107,20 +99,51 @@
                     //向服务端发送删除指令
                 });
             } else if (layEvent === 'edit') {
-				layer.open({
-					title: "修改",
-					area: ['600px', '300px'],
-					type: 2,
-					content: 'userEdit?userId='+ data.id, //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
-					end: function(){
-						location.reload()
-					}
-				});
+            	edit(data);
             }
         });
 
+		function add() {
+			layer.open({
+				title: "修改",
+				area: ['600px', '500px'],
+				type: 2,
+				content: 'userAdd', //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+				btn: ['提交'],
+				btnAlign: 'c',//按钮居中
+				yes: function(index, layero){
+					// 获取弹出层中的form表单元素
+					var formSubmit=layer.getChildFrame('form', index);
+					// 获取表单中的提交按钮（在我的表单里第一个button按钮就是提交按钮，使用find方法寻找即可）
+					var submited = formSubmit.find('button')[0];
+					// 触发点击事件，会对表单进行验证，验证成功则提交表单，失败则返回错误信息
+					submited.click();
+				}
+			});
+		}
 
+		function edit(data) {
+			layer.open({
+				title: "修改",
+				area: ['600px', '300px'],
+				type: 2,
+				content: 'userEdit?userId='+ data.id, //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+				btn: ['提交'],
+				btnAlign: 'c',//按钮居中
+				yes: function(index, layero){
+					// 获取弹出层中的form表单元素
+					var formSubmit=layer.getChildFrame('form', index);
+					// 获取表单中的提交按钮（在我的表单里第一个button按钮就是提交按钮，使用find方法寻找即可）
+					var submited = formSubmit.find('button')[0];
+					// 触发点击事件，会对表单进行验证，验证成功则提交表单，失败则返回错误信息
+					submited.click();
+				}
+			});
+		}
     });
+
+
+
 
 </script>
 </body>
