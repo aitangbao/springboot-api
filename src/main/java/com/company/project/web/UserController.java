@@ -21,6 +21,9 @@ import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <p>
  *  前端控制器
@@ -50,9 +53,10 @@ public class UserController {
             return ResultGenerator.genFailResult("密码错误");
         }
         String token = JwtUtils.geneJsonWebToken(user);
-        user.setToken(token);
-        user.setPassword("");
-        return ResultGenerator.genSuccessResult(user);
+        Map<String, String> resultMap = new HashMap<>(2);
+        resultMap.put("username", user.getUsername());
+        resultMap.put("token", token);
+        return ResultGenerator.genSuccessResult(resultMap);
     }
 
     @ApiOperation("注册")
@@ -91,10 +95,10 @@ public class UserController {
         @ApiImplicitParam(name = "pageCount", value = "每页条数")
     })
     @GetMapping("listByPage")
-    public Result findListByPage(@RequestParam(defaultValue = "1") Integer currentPage,
-                                   @RequestParam(defaultValue = "10") Integer pageCount){
-        Page page = new Page(currentPage, pageCount);
-        IPage<User> iPage = userService.page(page);
+    public Result findListByPage(@RequestParam(defaultValue = "1") Integer page,
+                                   @RequestParam(defaultValue = "10") Integer limit){
+        Page pageParam = new Page(page, limit);
+        IPage<User> iPage = userService.page(pageParam);
         return ResultGenerator.genSuccessResult(iPage);
     }
 

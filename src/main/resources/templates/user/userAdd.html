@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>layui.form小例子</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+</head>
+<body>
+<form class="layui-form" lay-filter="formTest"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input  style="width: 300px"  type="text" name="username" lay-verify="require" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input  style="width: 300px" type="password" name="password" lay-verify="require"  placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称</label>
+        <div class="layui-input-block">
+            <input style="width: 300px"  type="text" name="nickName" lay-verify="nickName" placeholder="请输入" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="0" title="男">
+            <input type="radio" name="sex" value="1" title="女" checked>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="test">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+    <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+</form>
+<script src="layui/layui.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    layui.use('form', function () {
+
+
+        var form = layui.form;
+
+
+        //自定义验证规则
+        form.verify({
+            nickName: function (value) {
+                if (value.length < 2) {
+                    return '标题至少得2个字符啊';
+                }
+            }
+
+        });
+
+        //监听提交
+        form.on('submit(test)', function (data) {
+
+            $.ajax({
+                type: 'POST',
+                url: 'api/user/register?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbmVoZWUiLCJ1c2VyTmFtZSI6ImFkbWluIiwiaWF0IjoxNTg0NDIwNjU1LCJleHAiOjE1ODUwMjU0NTV9.xSemPNbrrTBMZy1uT-SvahPUZvKumlzUPO_85xfWE-E',
+                dataType: "JSON",
+                data: JSON.stringify(data.field),
+                contentType: "application/json",
+                success: function (data) {
+                    if (data.code == 0) {
+                        layer.alert('添加成功', function(index){
+                            window.parent.layer.closeAll();//关闭弹窗
+                        });
+                    } else {
+                        layer.msg(data.message)
+                    }
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+    });
+</script>
+</body>
+</html>

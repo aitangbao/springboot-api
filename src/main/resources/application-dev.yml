@@ -1,5 +1,7 @@
 # 开发环境配置
 spring:
+  thymeleaf:
+    cache: false
   datasource:
     dynamic:
       primary: master #设置默认的数据源或者数据源组,默认值即为master
@@ -21,6 +23,7 @@ spring:
           url: jdbc:mysql://xx.xx.xx.xx:3308/dynamic?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
         #......省略
         #以上会配置一个默认库master，一个组slave下有两个子库slave_1,slave_2
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

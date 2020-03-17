@@ -124,20 +124,16 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor())
-                .excludePathPatterns("/doc.html")
-                .excludePathPatterns("/swagger-resources/**")
-                .excludePathPatterns("/error")
-                .excludePathPatterns("/webjars/**")
                 .excludePathPatterns("/api/user/login")
                 .excludePathPatterns("/api/user/register")
-                .addPathPatterns("/**");
+                .addPathPatterns("/api/**");
     }
 
 
     private void responseResult(HttpServletResponse response, Result result) {
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Content-type", "application/json;charset=UTF-8");
-        response.setStatus(200);
+        response.setStatus(ResultCode.SUCCESS.code());
         try {
             response.getWriter().write(JSON.toJSONString(result));
         } catch (IOException ex) {
@@ -153,7 +149,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations(
-                "classpath:/static/");
+                "classpath:/static/").addResourceLocations(
+                "classpath:/ace/");
         registry.addResourceHandler("doc.html").addResourceLocations(
                 "classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations(
