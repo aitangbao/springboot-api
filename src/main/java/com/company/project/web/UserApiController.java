@@ -8,6 +8,7 @@ import com.company.project.utils.JwtUtils;
 import com.company.project.utils.MD5Utils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import com.company.project.service.IUserService;
 import com.company.project.model.User;
@@ -96,9 +97,14 @@ public class UserApiController {
     })
     @GetMapping("listByPage")
     public Result findListByPage(@RequestParam(defaultValue = "1") Integer page,
-                                   @RequestParam(defaultValue = "10") Integer limit){
+                                   @RequestParam(defaultValue = "10") Integer limit,
+                                    @RequestParam(required = false) String username){
         Page pageParam = new Page(page, limit);
-        IPage<User> iPage = userService.page(pageParam);
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotEmpty(username)) {
+            queryWrapper.like("username", username);
+        }
+        IPage<User> iPage = userService.page(pageParam, queryWrapper);
         return ResultGenerator.genSuccessResult(iPage);
     }
 
