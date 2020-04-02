@@ -126,6 +126,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         registry.addInterceptor(loginInterceptor())
                 .excludePathPatterns("/api/user/login")
                 .excludePathPatterns("/api/user/register")
+                .excludePathPatterns("/api/user/getVerify")
+                .excludePathPatterns("/api/user/checkVerify")
                 .addPathPatterns("/api/**");
     }
 

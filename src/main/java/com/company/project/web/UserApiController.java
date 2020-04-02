@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.utils.ImageCodeUtil;
 import com.company.project.utils.JwtUtils;
 import com.company.project.utils.MD5Utils;
 import io.swagger.annotations.ApiImplicitParam;
@@ -18,6 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -112,6 +116,32 @@ public class UserApiController {
     @GetMapping("getById/{id}")
     public Result findById(@PathVariable Long id){
         return ResultGenerator.genSuccessResult(userService.getById(id));
+    }
+
+    @ApiOperation(value = "生成验证码")
+    @GetMapping(value = "/getVerify")
+    public void getVerify(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("image/jpeg");//设置相应类型,告诉浏览器输出的内容为图片
+        response.setHeader("Pragma", "No-cache");//设置响应头信息，告诉浏览器不要缓存此内容
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expire", 0);
+        try {
+            ImageCodeUtil randomValidateCode = new ImageCodeUtil();
+            randomValidateCode.getRandcode(request, response);//输出验证码图片方法
+        } catch (Exception e) {
+            log.error("生成验证码失败");
+        }
+    }
+
+    @ApiOperation(value = "校验验证码")
+    @PostMapping(value = "/checkVerify")
+    public Result checkVerify(@RequestParam String imageCode, HttpSession session) {
+        //从session中获取随机数
+        Object random = session.getAttribute(ImageCodeUtil.IMAGE_RANDOM_CODEKEY);
+        if (random != null && String.valueOf(random).equals(imageCode)) {
+            return ResultGenerator.genSuccessResult();
+        }
+        return ResultGenerator.genFailResult("验证码输入有误");
     }
 
 }
